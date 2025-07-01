@@ -1,9 +1,10 @@
 # User Stories
 
+---
 ## Admin User Stories
 ### User Story 1
 **Title:**
-As an Admin user, I want to log into the portal with my username and password, so that I can manage the platform securely.
+As an Admin, I want to log into the portal with my username and password, so that I can manage the platform securely.
 
 **Acceptance Criteria:**
 1. Admin must be presented with login page requesting username and password.
@@ -19,7 +20,7 @@ As an Admin user, I want to log into the portal with my username and password, s
 
 ### User Story 2
 **Title:**
-As an admin user, I want to log out of the portal, so that I can protect the system access.
+As an Admin, I want to log out of the portal, so that I can protect the system access.
 
 **Acceptance Criteria:**
 1. `Logout` button must be clearly present.
@@ -36,7 +37,7 @@ As an admin user, I want to log out of the portal, so that I can protect the sys
 
 ### User Story 3
 **Title:**
-As an Admin user, I want to add doctors to the portal, so that they can access the system to manage appointments.
+As an Admin, I want to add doctors to the portal, so that they can access the system to manage appointments.
 
 **Acceptance Criteria:**
 1. A `Add Doctor` button must be present in the Admin Dashboard.
@@ -53,7 +54,7 @@ As an Admin user, I want to add doctors to the portal, so that they can access t
 
 ### User Story 4
 **Title:**
-As an Admin user, I want to delete doctor's profile from portal, so that patients' sensitive information are secured from un-authenticated doctors.
+As an Admin, I want to delete doctor's profile from portal, so that patients' sensitive information are secured from un-authenticated doctors.
 
 **Acceptance Criteria:**
 1. A `Manage Doctors` button must be present in the admin dashboard.
@@ -73,7 +74,7 @@ As an Admin user, I want to delete doctor's profile from portal, so that patient
 
 ### User Story 5
 **Title:**
-As an Admin user, I want to run a stored procedure in MySQL CLI to get the number of appointments per month so that I can track usage statistics.
+As an Admin, I want to run a stored procedure in MySQL CLI to get the number of appointments per month so that I can track usage statistics.
 
 **Acceptance Criteria:**
 1. A stored procedure must exist in the MySQL database that aggregates appointment counts by month.
@@ -85,3 +86,37 @@ As an Admin user, I want to run a stored procedure in MySQL CLI to get the numbe
 **Story Points:** 2
 
 **Notes:**
+
+---
+## Patient User Stories
+
+
+### User Story 1
+**Title:**
+As a Patient, I want to view a list of doctors without logging in, so that I can explore options before registering.
+
+**Acceptance Criteria:**
+1. List of doctors can be accessed by public showing their names, specialty, and office hours.
+2. Clicking on doctor card redirects user to specific doctor's profile with button to `Book Appointment`.
+
+**Priority:** High
+
+**Story Points:** 4
+
+
+### User Story 2
+**Title:**
+As a Patient, I want to sign up using email and password, so that I can book my appointments.
+
+**Acceptance Criteria:**
+1. Patient must be able to access sign up form with fields fullname, email, password.
+2. Entered data must be validated to avoid invalid input.
+3. Upon successful signup, user data is stored in MySQL Database, user is redirected to appropriate page.
+
+**Priority:** High
+
+**Story Points:** 4
+
+### User Story 3
+**Title:**
+*Log into the portal to manage your bookings*
