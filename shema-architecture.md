@@ -1,15 +1,14 @@
-# Section 1: Architecture Summary
-*Modify the below in own words*
+# Architecture Summary
 
-This Spring Boot application uses both MVC and REST controllers. Thymeleaf templates are used for the Admin and Doctor dashboards, while REST APIs serve all other modules. The application interacts with two databases --> MySQL (for patient, doctor, appointment, and admin data) and MongoDB (for prescriptions). All controllers route requests through a common service layer, which in turn delegates to the appropriate repositories. MySQL uses JPA entities while MongoDB uses document models.
+This application is built with Spring Boot, which supports both MVC and REST controllers. The dashboard uses Thymeleaf templates, while other modules rely on REST APIs. For data storage, the system uses MySQL and MongoDB - MySQL handles structured data such as patients, doctors, and appointments, while MongoDB stores unstructured data like prescriptions. Controllers route requests through service layers, which then delegates tasks to the appropriate repositories.
 
-# Section 2: Numbered flow of data and control
-*Create numbered list (1 to 7) describing each step of the data flow based on the architecture diagram. Use your own words or base your summary on the explanation above. You do not have to include the architectural diagram itself.*
+---
+# Flow of data and Control
 
-Example format:
-```
-1. User accesses AdminDashboard or Appointment pages.
-2. The action is routed to the approprate Thymeleaf or REST controller.
-3. The controller calls the service layer...
-...
-```
+1. Admin and Doctor users interact with the system through `AdminDashboard` and `DoctorDashboard` respectively. Requests through these dashboards are routed to **Thymeleaf controllers**.
+2. Patients interact via REST-based interface `PatientDashboard` or `Appointment`. Requests through these dashboards are handled by **Spring Boot REST Controllers**.
+3. Controllers delegate business logic to `Service layer`.
+4. The service layer interacts with `MySQL Repositories` for structured data such as Patients, Doctors, Appointments; or `MongoDB Repositories` for unstructured data like Prescriptions.
+5. Repositories access **MySQL Database** via `JPA Entities`; Repositories access **MongoDB Database** using `MongoDB Models` as BSON/JSON documents and managed by **Spring Data MongoDB**.
+6. Fetched data is mapped into Models and passed back to the `Service layer` where business logic and processing are applied.
+7. The controller returns the processed model to the `Thymeleaf View Engine` for the HTML templates to be rendered dynamically for the user.
