@@ -61,12 +61,48 @@
 ### Table: payment_item
 - id: INT, Primary Key, Auto Increment
 - payment_id: INT, Foreign Key &rarr; payments(id)
-- inventory_id: INT, Foreign Key &rarr; inventory(id)
+- supply_id: INT, Foreign Key &rarr; supplies(id)
 - quantity: Decimal, Not Null
 
-### Table: inventory
+### Table: supplies
 - id: INT, Primary Key, Auto Increment
 - name: VARCHAR, Not Null
 - price: Decimal, Not Null
-- type: INT (0 = Non-inventory item, 1 = inventory item)
+- type: INT (0 = Non-supply item, 1 = supply item)
+- dosage: Double
+- dosageUnit: VARCHAR
 - stock_level: INT
+
+
+## MongoDB Collection Design
+
+### Collection: prescriptions
+```json
+{
+  "_id": "ObjectId('64abc123456')",
+  "patientId": 10,
+  "appointmentId": 51,
+  "medication": "Paracetamol",
+  "dosage": "500mg",
+  "doctorNotes": "Take 1 tablet every 6 hours.",
+  "refillCount": 2,
+  "pharmacy": {
+    "name": "Walgreens SF",
+    "location": "Market Street"
+  }
+}
+```
+
+### Collection: feedbacks
+```json
+{
+  "_id": "ObjectId('124249852u3')",
+  "patientId": 10,
+  "doctorId": 4,
+  "content": {
+    "subject": "Some title",
+    "comment": "Some comment paragaph"
+  },
+  "postDate": "DATETIME"
+}
+```
