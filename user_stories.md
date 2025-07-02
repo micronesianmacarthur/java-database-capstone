@@ -47,7 +47,7 @@ As an Admin, I want to add doctors to the portal, so that they can access the sy
 
 **Priority:** High
 
-**Story Points:** 4
+**Story Points:** 5
 
 **Notes:**
 - Consider sending Onboarding email to newly added doctor
@@ -65,7 +65,7 @@ As an Admin, I want to delete doctor's profile from portal, so that patients' se
 
 **Priority:** Medium
 
-**Story Points:** 4
+**Story Points:** 5
 
 **Notes:**
 - Consider moving deleted doctor data to separate database table that holds past doctor profiles.
@@ -101,7 +101,7 @@ As a Patient, I want to view a list of doctors without logging in, so that I can
 
 **Priority:** High
 
-**Story Points:** 4
+**Story Points:** 5
 
 
 ### User Story 2
@@ -109,14 +109,152 @@ As a Patient, I want to view a list of doctors without logging in, so that I can
 As a Patient, I want to sign up using email and password, so that I can book my appointments.
 
 **Acceptance Criteria:**
-1. Patient must be able to access sign up form with fields fullname, email, password.
+1. Patient must be able to access sign up form with fields firstname, lastname, email, password.
 2. Entered data must be validated to avoid invalid input.
 3. Upon successful signup, user data is stored in MySQL Database, user is redirected to appropriate page.
 
 **Priority:** High
 
-**Story Points:** 4
+**Story Points:** 5
+
+**Notes:**
+- Notification should be sent to doctor when new appointment is booked.
 
 ### User Story 3
 **Title:**
-*Log into the portal to manage your bookings*
+As a Patient, I want to log into the portal, so that I can manage my bookings.
+
+**Acceptance Criteria:**
+1. `Login` button must be present.
+2. Login page must have email and password field.
+3. Credentials are validated against stored patient data in the database.
+4. On successful login, patient is redirected to dashboard where they can view, create, delete appointments.
+5. Patient can specify duration of appointment given Doctor's availability.
+
+**Priority:** High
+
+**Story Points:** 3
+
+**Notes:**
+
+
+### User Story 4
+**Title:**
+As a Patient, I want to log out of the portal, so that my account is secure.
+
+**Acceptance Criteria:**
+1. `Logout` button must be present.
+2. On logout, success message is displayed.
+3. Current session is terminated, Patient is redirected to login page.
+
+**Priority:** High
+
+**Story Points:** 2
+
+**Notes:**
+
+
+### User Story 5
+**Title:**
+As a Patient, I want to view my upcoming appointments, so that I can prepare accordingly.
+
+**Acceptance Criteria:**
+1. Upcoming appointments are visible in Patient dashboard ordered by date and time of appointment.
+2. Each appointment displays relevant details such as doctor name, specialty, date, time.
+
+**Priority:** Medium
+
+**Story Points:** 3
+
+**Notes:**
+
+
+## Doctor User Stories
+
+
+### User Story 1
+**Title:**
+As a Doctor, I want to log into the portal, so that I can manage my appointments.
+
+**Acceptance Criteria:**
+1. `Login` button must be present.
+2. On successful login, doctor is redirected to doctor dashboard where assigned appointments are listed.
+3. `Profile`, `Appointments` menus must be present in doctor's dashboard.
+
+**Priority:** High
+
+**Story Points:** 2
+
+
+### User Story 2
+**Title:**
+As a Doctor, I want to log out of the portal, so that my data is protected.
+
+**Acceptance Criteria:**
+1. `Logout` button must be present.
+2. Session is terminated upon logout to prevent unauthenticated activity.
+
+**Priority:** Medium
+
+**Story Points:** 2
+
+
+### User Story 3
+**Title:**
+As a Doctor, I want to view my appointment calendar, so that I can stay organized.
+
+**Acceptance Criteria:**
+1. `Appointments` button must be present to view appointments.
+2. In the appointments page, a calendar must be present with appointments placed in its appropriate date and time.
+3. Each appointment must be clickable to view more details.
+4. In detailed appointment view, options to `Edit` and `Cancel` must be present.
+
+**Priority:** High
+
+**Story Points:** 5
+
+**Notes:**
+- Notification should be sent to patient if doctor cancels any appointment booking.
+
+
+### User Story 4
+**Title:**
+As a Doctor, I want to mark my unavailability, so that patients are informed on available spots.
+
+**Acceptance Criteria:**
+1. `Add task` button must be present in the appointments page.
+2. Add task page must have fields for date, time, task name, description, and location. `Save` and `Cancel` buttons must be present in the Add task page.
+3. When `Save` button is clicked, new task appears on the calendar blocking off the slot to avoid any booking.
+
+**Priority:** Medium
+
+**Story Points:** 8
+
+**Notes:**
+- Handle error for when new task fall on slot for an existing booking.
+
+### User Story 5
+**Title:**
+As a Doctor, I want to update my profile with specialization and contact information, so that patients have up-to-date information.
+
+**Acceptance Criteria:**
+1. `View Profile` menu must be present.
+2. In profile page, `Edit profile` menu must be present where doctor can add specialization and contact information. `Save changes` and `Cancel` menu must be present.
+3. When `Save changes` is clicked, data is validated and stored in the database. Page is redirected to profile view with updated information displayed.
+
+**Priority:** Low
+
+**Story Points:** 3
+
+
+### User Story 6
+**Title:**
+As a Doctor, I want to view the patient details for upcoming appointments, so that I can be prepared.
+
+**Acceptance Criteria:**
+1. In detailed appointment page, Patient information is displayed. 
+2. Patient information should include full name, gender, age, contact information, medical condition, medical consultation & prescription history, and reason for appointment.
+
+**Priority:** Medium
+
+**Story Points:** 5
