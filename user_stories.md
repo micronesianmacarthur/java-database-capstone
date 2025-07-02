@@ -168,6 +168,7 @@ As a Patient, I want to view my upcoming appointments, so that I can prepare acc
 
 **Notes:**
 
+---
 
 ## Doctor User Stories
 
