@@ -1,8 +1,85 @@
 package com.project.back_end.models;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Appointment {
 
-  // @Entity annotation:
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @NotNull(message = "Doctor must be assigned")
+    private Doctor doctor;
+
+    @ManyToOne
+    @NotNull(message = "Patient must be assigned")
+    private Patient patient;
+
+    @Future(message = "Appointment time must be in the future")
+    private LocalDateTime appointmentTime;
+
+    @NotNull(message = "Status cannot be null")
+    private int status;
+
+    @Transient
+    private LocalDateTime getEndTime() {
+        return appointmentTime.plusHours(1);
+    }
+
+    // constructors
+    public Appointment() {}
+
+    public Appointment(Doctor doctor, Patient patient, LocalDateTime appointmentTime) {
+        this.doctor = doctor;
+        this.patient = patient;
+        this.appointmentTime = appointmentTime;
+    }
+
+    // getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setAppointmentTime(LocalDateTime appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
+
+    public LocalDate getAppointmentDate() {
+        return appointmentTime.toLocalDate();
+    }
+
+    public LocalTime getAppointmentTimeOnly() {
+        return appointmentTime.toLocalTime();
+    }
+
+}
+// @Entity annotation:
 //    - Marks the class as a JPA entity, meaning it represents a table in the database.
 //    - Required for persistence frameworks (e.g., Hibernate) to map the class to a database table.
 
@@ -67,6 +144,4 @@ public class Appointment {
 
 // 10. Getters and Setters:
 //    - Standard getter and setter methods are provided for accessing and modifying the fields: id, doctor, patient, appointmentTime, status, etc.
-
-}
 
