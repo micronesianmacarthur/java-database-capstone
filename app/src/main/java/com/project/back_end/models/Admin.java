@@ -1,5 +1,11 @@
 package com.project.back_end.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
+import java.time.LocalDate;
+
 @Entity
 public class Admin {
 
@@ -7,19 +13,51 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "First name is required")
+    @Size(min = 3, max = 50, message = "First name must be 3 to 50 characters long")
+    @Column(length = 50, nullable = false)
+    private String firstName;
+
+    @NotNull(message = "Last name is required")
+    @Size(min = 3, max = 50, message = "Last name must be 3 to 50 characters long")
+    @Column(length = 50, nullable = false)
+    private String lastName;
+
     @NotNull(message = "Username cannot be null")
+    @Column(unique = true, nullable = false)
     private String username;
 
     @NotNull(message = "Password cannot be null")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(nullable = false)
     private String password;
+
+    @NotNull(message = "Role is required")
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role roleId;
+
+    @Column(nullable = false)
+    private int employmentStatus = 1; // 0 = deactivated, 1 = active --> default 1
+
+    @Column(updatable = false)
+    private LocalDate createDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createDate = LocalDate.now();
+    }
 
     // constructors
     public Admin() {}
 
-    public Admin(String username, String password) {
+    public Admin(String firstName, String lastName, String username, String password, Role roleId, int employmentStatus) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.password = password;
+        this.roleId = roleId;
+        this.employmentStatus = employmentStatus;
     }
 
     // getters and setters
@@ -29,6 +67,22 @@ public class Admin {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {
@@ -47,6 +101,33 @@ public class Admin {
         this.password = password;
     }
 
+    public Role getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Role roleId) {
+        this.roleId = roleId;
+    }
+
+    public int getEmploymentStatus() {
+        return employmentStatus;
+    }
+
+    public void setEmploymentStatus(int employmentStatus) {
+        this.employmentStatus = employmentStatus;
+    }
+
+    public LocalDate getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDate createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDate getDeactivateDate() {
+        return employmentStatus == 0 ? LocalDate.now() : null;
+    }
 }
 // @Entity annotation:
 //    - Marks the class as a JPA entity, which means it represents a table in the database.

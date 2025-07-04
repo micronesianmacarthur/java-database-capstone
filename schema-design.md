@@ -8,7 +8,7 @@
 - password: VARCHAR, Not Null, encrypted
 - roleId: INT, Foreign Key &rarr; roles(id)
 - employmentStatus: INT (0 = deactivated, 1 = active)
-- createdDate: DATE, Not Null
+- createDate: DATE, Not Null
 - deactivateDate: DATE
 
 ### Table: doctors

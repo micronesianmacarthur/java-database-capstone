@@ -20,26 +20,52 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Name cannot be null")
-    @Size(min = 3, max = 100, message = "Name must be 3 to 100 characters long")
-    private String name;
+    @NotNull(message = "First name is required")
+    @Size(min = 3, max = 50, message = "First name must be 3 to 50 characters long")
+    @Column(length = 50, nullable = false)
+    private String firstName;
 
-    @NotNull(message = "Specialty cannot be null")
-    @Size(min = 3, max = 50, message = "Specialty must be 3 to 50 characters long")
-    private String specialty;
+    @NotNull(message = "Last name is required")
+    @Size(min = 3, max = 50, message = "Last name must be 3 to 50 characters long")
+    @Column(length = 50, nullable = false)
+    private String lastName;
 
-    @NotNull(message = "Email cannot be null")
+    @NotNull(message = "Email is required")
     @Email(message = "Invalid email format")
+    @Column(nullable = false)
     private String email;
 
-    @NotNull(message = "Password cannot be null")
+    @NotNull(message = "Password is required")
     @Size(min = 6, message = "Password must be atleast 6 characters long")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.access.WRITE_ONLY)
+    @Column(nullable = false)
     private String password;
+
+    @NotNull(message = "Role is required")
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role roleId;
+
+    @NotNull(message = "Specialty is required")
+    @Size(min = 3, max = 50, message = "Specialty must be 3 to 50 characters long")
+    @Column(length = 50, nullable = false)
+    private String specialty;
 
     @NotNull(message = "Phone cannot be null")
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
     private String phone;
+
+    @NotNull(message = "Employment Status is required")
+    @Column(nullable = false)
+    private int employmentStatus = 1; // 0 = deactivated, 1 = active
+
+    @Column(updatable = false)
+    private LocalDate createDate;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createDate = LocalDate.now();
+    }
 
     @ElementCollection
     private List<String> availableTimes;
@@ -47,12 +73,15 @@ public class Doctor {
     // constructors
     public Doctor() {}
 
-    public Doctor(String name, String specialty, String email, String password, String phone, List<String> availableTimes) {
-        this.name = name;
-        this.specialty = specialty;
+    public Doctor(String firstName, String lastName, String email, String password, Role roleId, String specialty, String phone, int employmentStatus, List<String> availableTimes) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.roleId = roleId;
+        this.specialty = specialty;
         this.phone = phone;
+        this.employmentStatus = employmentStatus;
         this.availableTimes = availableTimes;
     }
 
@@ -65,20 +94,20 @@ public class Doctor {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSpecialty() {
-        return specialty;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -97,6 +126,30 @@ public class Doctor {
         this.password = password;
     }
 
+    public Role getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Role roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getSpecialty() {
+        return specialty;
+    }
+
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
+    public int getEmploymentStatus() {
+        return employmentStatus;
+    }
+
+    public void setEmploymentStatus(int employmentStatus) {
+        this.employmentStatus = employmentStatus;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -111,6 +164,14 @@ public class Doctor {
 
     public void setAvailableTimes(List<String> availableTimes) {
         this.availableTimes = availableTimes;
+    }
+
+    public LocalDate getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDate createDate) {
+        this.createDate = createDate;
     }
 
 }
