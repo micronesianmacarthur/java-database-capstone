@@ -37,14 +37,14 @@ public class Doctor {
 
     @NotNull(message = "Password is required")
     @Size(min = 6, message = "Password must be atleast 6 characters long")
-    @JsonProperty(access = JsonProperty.access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
 
     @NotNull(message = "Role is required")
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
-    private Role roleId;
+    private Role role;
 
     @NotNull(message = "Specialty is required")
     @Size(min = 3, max = 50, message = "Specialty must be 3 to 50 characters long")
@@ -53,11 +53,12 @@ public class Doctor {
 
     @NotNull(message = "Phone cannot be null")
     @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
+    @Column(length = 10, nullable = false, unique = true)
     private String phone;
 
     @NotNull(message = "Employment Status is required")
     @Column(nullable = false)
-    private int employmentStatus = 1; // 0 = deactivated, 1 = active
+    private boolean active = true; // 0 = deactivated, 1 = active
 
     @Column(updatable = false)
     private LocalDate createDate;
@@ -73,15 +74,15 @@ public class Doctor {
     // constructors
     public Doctor() {}
 
-    public Doctor(String firstName, String lastName, String email, String password, Role roleId, String specialty, String phone, int employmentStatus, List<String> availableTimes) {
+    public Doctor(String firstName, String lastName, String email, String password, Role role, String specialty, String phone, boolean active, List<String> availableTimes) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.roleId = roleId;
+        this.role = role;
         this.specialty = specialty;
         this.phone = phone;
-        this.employmentStatus = employmentStatus;
+        this.active = active;
         this.availableTimes = availableTimes;
     }
 
@@ -126,12 +127,12 @@ public class Doctor {
         this.password = password;
     }
 
-    public Role getRoleId() {
-        return roleId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoleId(Role roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getSpecialty() {
@@ -142,12 +143,12 @@ public class Doctor {
         this.specialty = specialty;
     }
 
-    public int getEmploymentStatus() {
-        return employmentStatus;
+    public boolean getActive() {
+        return active;
     }
 
-    public void setEmploymentStatus(int employmentStatus) {
-        this.employmentStatus = employmentStatus;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public String getPhone() {
@@ -172,6 +173,10 @@ public class Doctor {
 
     public void setCreateDate(LocalDate createDate) {
         this.createDate = createDate;
+    }
+
+    public LocalDate getDeactivateDate() {
+        return !active ? LocalDate.now() : null;
     }
 
 }

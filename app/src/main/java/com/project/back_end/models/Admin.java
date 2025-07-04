@@ -2,7 +2,7 @@ package com.project.back_end.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constrabooleans.*;
 
 import java.time.LocalDate;
 
@@ -35,10 +35,10 @@ public class Admin {
     @NotNull(message = "Role is required")
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
-    private Role roleId;
+    private Role role;
 
     @Column(nullable = false)
-    private int employmentStatus = 1; // 0 = deactivated, 1 = active --> default 1
+    private boolean active = true; // 0 = deactivated, 1 = active --> default 1
 
     @Column(updatable = false)
     private LocalDate createDate;
@@ -51,13 +51,13 @@ public class Admin {
     // constructors
     public Admin() {}
 
-    public Admin(String firstName, String lastName, String username, String password, Role roleId, int employmentStatus) {
+    public Admin(String firstName, String lastName, String username, String password, Role role, boolean active) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.roleId = roleId;
-        this.employmentStatus = employmentStatus;
+        this.role = role;
+        this.active = active;
     }
 
     // getters and setters
@@ -102,19 +102,19 @@ public class Admin {
     }
 
     public Role getRoleId() {
-        return roleId;
+        return role;
     }
 
-    public void setRoleId(Role roleId) {
-        this.roleId = roleId;
+    public void setRoleId(Role role) {
+        this.role = role;
     }
 
-    public int getEmploymentStatus() {
-        return employmentStatus;
+    public boolean getActive() {
+        return active;
     }
 
-    public void setEmploymentStatus(int employmentStatus) {
-        this.employmentStatus = employmentStatus;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public LocalDate getCreateDate() {
@@ -126,7 +126,7 @@ public class Admin {
     }
 
     public LocalDate getDeactivateDate() {
-        return employmentStatus == 0 ? LocalDate.now() : null;
+        return active == 0 ? LocalDate.now() : null;
     }
 }
 // @Entity annotation:
