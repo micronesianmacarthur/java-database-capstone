@@ -11,36 +11,76 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(mesage = "Name cannot be null")
-    @Size(min = 3, max = 100, message = "Name must be 3 to 100 characters long")
-    private String name;
+    @NotNull(message = "First name is required")
+    @Size(min = 3, max = 50, message = "First name must be 3 to 50 characters long")
+    @Column(length = 50, nullable = false)
+    private String firstName;
 
-    @NotNull(message = "Email cannot be null")
+    @NotNull(message = "Last name is required")
+    @Size(min = 3, max = 50, message = "Last name must be 3 to 50 characters long")
+    @Column(length = 50, nullable = false)
+    private String lastName;
+
+    @NotNull(message = "Email is required")
     @Email(message = "Invalid email format")
+    @Column(nullable = false)
     private String email;
 
-    @NotNull(message = "Password cannot be null")
-    @Size(min = 6, message = "Password must be atleast 6 characters long")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotNull(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters long")
+    JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @NotNull(message = "Phone cannot be null")
-    @Pattern(regexp = "[0-9]{10}", message = "Phone number must have 10 digits")
-    private String phone;
+    @NotNull(message = "Date of Birth is required")
+    @Column(nullable = false)
+    private LocalDate dateOfBirth;
 
-    @NotNull(message = "Address cannot be null")
-    @Size(max = 255, message = "Address cannot be longer than 255 characters")
-    private String address;
+    @NotNull(message = "Hospital number is required")
+    @Column(nullable = false)
+    private String hospitalNo;
+
+    @NotNull(message = "Blood type is required")
+    @ManyToOne
+    @JoinColumn(name = "bloodType_id", nullable = false)
+    private BloodType bloodType;
+
+    @Column(nullable = false)
+    private boolean active = true;
+
+    @Column(nullable = false)
+    private LocalDate createDate;
+
+    @PrePersist
+    protected void onCreate() {
+        return LocalDate.now();
+    }
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean insuranceCoverage;
+
+    @ManyToOne
+    @JoinColumn(name = "insuranceCompany_id")
+    private InsuranceCompany insuranceCompany;
 
     // constructors
     public Patient() {}
 
-    public Patient(String name, String email, String password, String phone, String address) {
-        this.name = name;
+    public Patient(String firstName, String lastName, String email,
+                   String password, LocalDate dateOfBirth, String hospitalNo,
+                   BloodType bloodType, boolean active, LocalDate createDate,
+                   boolean insuranceCoverage, InsuranceCompany insuranceCompany) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.phone = phone;
-        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.hospitalNo = hospitalNo;
+        this.bloodType = bloodType;
+        this.active = active;
+        this.createDate = createDate;
+        this.insuranceCoverage = insuranceCoverage;
+        this.insuranceCompany = insuranceCompany;
     }
 
     // getters and setters
@@ -52,47 +92,23 @@ public class Patient {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }public
 }
+
 // @Entity annotation:
 //    - Marks the class as a JPA entity, meaning it represents a table in the database.
 //    - Required for persistence frameworks (e.g., Hibernate) to map the class to a database table.
